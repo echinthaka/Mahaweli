@@ -1,0 +1,32 @@
+---
+mesos_playbook_version: "0.3.2"
+
+platform_url_name: "ubuntu"
+package_type: "deb"
+
+mesos_install_mode: "master" # {master|slave|master-slave}
+mesos_version: "0.22.1"
+
+# conf file settings
+mesos_cluster_name: "Comprehend_Mesos_Cluster"
+mesos_ip: "{{ansible_default_ipv4.address}}"
+mesos_hostname: "{{ inventory_hostname }}"
+mesos_port: "5050"
+mesos_log_location: "/var/log/mesos"
+mesos_ulimit: "-n 8192"
+mesos_options: "--log_dir=$LOGS"
+mesos_work_dir: "/var/mesos"
+mesos_quorum: "1"
+zookeeper_client_port: "2181"
+zookeeper_hostnames: "{{ groups.zookeeper_nodes | join(':' + zookeeper_client_port + ',')  }}:{{ zookeeper_client_port  }}"
+
+mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
+
+# Containerizer
+mesos_containerizers: "docker,mesos"
+mesos_executor_timeout: "5mins"
+
+# mesos-slave options
+docker_remove_delay: 2mins
+mesos_slaves_work_dir: "/mesos/workLogs"
+slave_resources: "cpus:8;mem:60000"

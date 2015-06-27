@@ -1,0 +1,14 @@
+- name: Remove Mesos slave conf, if available on masters
+  file: state=absent path=/etc/init/mesos-slave.conf
+
+- name: Creating Mesos Master config file
+  template: src=conf-mesos-master.j2 dest=/etc/default/mesos-master
+
+- name: Creating /etc/mesos-master-config directory
+  file: path=/etc/mesos-master-config state=directory
+
+- name: Creating Mesos master script
+  template: src=init-mesos-master.j2 dest=/etc/init/mesos-master.conf
+
+- name: (Re)starting mesos-master
+  service: name=mesos-master state=restarted

@@ -1,0 +1,22 @@
+---
+# == Work Dir for replicated log
+- name: Creating work dir
+  file: path=/var/mesos state=directory
+
+# == Remove default configs
+- name: Removing Default Mesos Configs
+  file: state=absent path=/etc/mesos/
+
+- name: Removing Mesos ZK File
+  file: state=absent path=/etc/mesos/zk
+
+- name: Removing Default Mesos-Master Config
+  file: state=absent path=/etc/mesos-master/
+
+- name: Removing Default Mesos-Slave Config
+  file: state=absent path=/etc/mesos-slave/
+
+# == Configure and recreate
+- name: Creating Mesos default config file
+  template: src=conf-mesos.j2 dest=/etc/default/mesos
+

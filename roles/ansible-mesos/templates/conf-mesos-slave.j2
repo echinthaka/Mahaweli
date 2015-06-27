@@ -1,0 +1,6 @@
+# {{ansible_managed}}
+
+export MASTER="{{ mesos_zookeeper_masters }}"
+export CONTAINERIZERS="{{ mesos_containerizers }}"
+export EXECUTOR_REGISTRATION_TIMEOUT="{{ mesos_executor_timeout }}"
+#export ISOLATION="cgroups/cpu,cgroups/mem"

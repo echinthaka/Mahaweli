@@ -1,0 +1,11 @@
+---
+# Here we are using the debian package if debian
+- include: debian.yml
+
+- include: mesos-common.yml
+
+- include: mesos-slave.yml
+  when: mesos_install_mode == "slave"
+
+- include: mesos-master.yml
+  when: mesos_install_mode == "master"
