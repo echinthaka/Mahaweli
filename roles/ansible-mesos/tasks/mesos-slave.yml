@@ -5,7 +5,7 @@
   file: state=directory path=/etc/mesos-slave/
 
 - name: Adding Mesos-Slave working directory
-  file: state=directory path={{ mesos_slaves_work_dir }} owner=comprehend
+  file: state=directory path={{ mesos_slaves_work_dir }} owner=eran
 
 - name: Adding containerizers to mesos-slave
   template: src=containerizers.j2 dest=/etc/mesos-slave/containerizers
@@ -15,9 +15,6 @@
 
 - name: Changing working directory for slaves
   template: src=work_dir.j2 dest=/etc/mesos-slave/work_dir
-
-#- name: Enforcing resource constraints
-#  template: src=resources.j2 dest=/etc/mesos-slave/resources
 
 - name: Increase the executor timeout to account for the potential delay in pulling a docker image to the slave
   template: src=executor_registration_timeout.j2 dest=/etc/mesos-slave/executor_registration_timeout

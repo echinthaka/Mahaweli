@@ -8,7 +8,7 @@ mesos_install_mode: "master" # {master|slave|master-slave}
 mesos_version: "0.22.1"
 
 # conf file settings
-mesos_cluster_name: "Comprehend_Mesos_Cluster"
+mesos_cluster_name: "Our_Mesos_Cluster"
 mesos_ip: "{{ansible_default_ipv4.address}}"
 mesos_hostname: "{{ inventory_hostname }}"
 mesos_port: "5050"
@@ -29,4 +29,3 @@ mesos_executor_timeout: "5mins"
 # mesos-slave options
 docker_remove_delay: 2mins
 mesos_slaves_work_dir: "/mesos/workLogs"
-slave_resources: "cpus:8;mem:60000"
