@@ -1,0 +1,5 @@
+---
+# This variable determines whether the /etc/defaults/docker file includes the
+# --dns option.
+docker_version: 1.6.2
+is_lxc_container: true

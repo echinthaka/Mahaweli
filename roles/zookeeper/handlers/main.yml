@@ -1,0 +1,4 @@
+---
+- name: Restart zookeeper
+  shell: start zookeeper || restart zookeeper 
+  sudo: yes

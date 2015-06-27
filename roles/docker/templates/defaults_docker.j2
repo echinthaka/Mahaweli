@@ -1,0 +1,23 @@
+# Docker Upstart and SysVinit configuration file
+
+# Customize location of Docker binary (especially for development testing).
+#DOCKER="/usr/local/bin/docker"
+
+# Use DOCKER_OPTS to modify the daemon startup options.
+#
+# As per https://docs.docker.com/articles/networking/#dns the daemon copies over
+# the host's resolv.conf, but if the host's nameserver is localhost (127.0.0.1)
+# the daemon will not copy it because the container has a separate concept of
+# 127.0.0.1 than the host. As per
+# https://docs.docker.com/installation/ubuntulinux/#docker-and-local-dns-server-warnings
+# we specify the host's ip as the container's nameserver. We could limit this
+# change to only dnsmasq hosts, but we do it for all docker hosts as a
+# convenience.
+#
+# Our registry is also insecure, so we need to pass the insecure-registry option.
+#
+# Jinja templates FTW! This Jinja template is included here for readability. The
+# same is collapsed and made into a single line in the DOCKER_OPTS variable.
+DOCKER_OPTS="{% if is_lxc_container %}--exec-driver=lxc {% endif %}"
+
+

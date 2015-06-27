@@ -1,0 +1,18 @@
+# This implementation is based on whats in https://mesosphere.github.io/marathon/docs/service-discovery-load-balancing.html
+- name: Install HAProxy
+  apt: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - haproxy
+
+- name: Enable HAProxy
+  template: src=haproxy.j2 dest=/etc/default/haproxy
+
+- name: Fix marathon haproxy file
+  command: "sudo sed -i 's/aptitude/apt-get/' {{ marathon_install_location }}/bin/haproxy-marathon-bridge"
+
+- name: Deploy haproxy refresh scripts
+  command: "{{ marathon_install_location }}/bin/haproxy-marathon-bridge install_haproxy_system localhost:8080"
+
+- name: Restarting haproxy
+  service: name=haproxy state=restarted
+

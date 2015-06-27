@@ -1,0 +1,45 @@
+---
+# We install docker this way because apt-get install docker.io does not necessarily install the version we want
+# Reference http://docs.docker.io.s3-website-us-west-2.amazonaws.com/installation/ubuntulinux/#ubuntu-trusty-1404-lts-64-bit
+
+- name: Update cache
+  apt: update_cache=yes
+
+- name: Install Debian packages
+  apt: pkg={{item}} state=present
+  with_items:
+    - apt-transport-https
+
+- name: Adding Docker repository key
+  sudo: yes
+  apt_key: url="https://get.docker.io/gpg" id="A88D21E9"
+
+- name: Adding Docker repository
+  sudo: yes
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' update_cache=yes state=present
+
+- name: Installing Docker + Dependencies
+  sudo: yes
+  apt: name="{{ item }}" force=yes state=present
+  with_items:
+    - lxc
+    - apparmor
+    - lxc-docker-{{ docker_version }}
+
+- name: Installing pip
+  sudo: yes
+  apt: name=python-pip=1.5.4-1 force=yes state=present
+
+- name: Installing docker-py for ansible docker module
+  sudo: yes
+  pip: name=docker-py==1.1.0 state=present
+  ignore_errors: yes
+
+- name: Copying docker default config
+  sudo: yes
+  template: src=defaults_docker.j2 dest=/etc/default/docker owner=root group=root mode=0644
+  notify: Restarting docker
+
+- name: Adding eran user to docker group
+  sudo: yes
+  user: name=eran groups=docker append=yes

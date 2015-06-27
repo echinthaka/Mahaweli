@@ -1,0 +1,24 @@
+---
+# == base ==
+marathon_playbook_version: "0.1.2"
+
+marathon_major_version: "0.8.1"
+marathon_minor_version: "1.0.171"
+marathon_mesos_version: "0.22.1"
+
+# == install ==
+marathon_bin: "/usr/bin/marathon"
+
+# == marathon conf ==
+marathon_conf_dir: "/etc/marathon/conf"
+zk_port: "2181"
+
+# == zookeeper ==
+#zookeeper_masters: "zk://{{ groups.zookeeper_nodes | map(attribute='ansible_host') | join(':' + zk_port + ',') }}:{{zk_port}}/mesos"
+mesos_masters: "zk://{{ groups.zookeeper_nodes | join(':' + zk_port + ',') }}:{{zk_port}}/mesos"
+zookeeper_masters: "zk://{{ groups.zookeeper_nodes | join(':' + zk_port + ',') }}:{{zk_port}}/marathon"
+marathon_hostname: "{{ mesos_ip_address | default(ansible_default_ipv4.address) }}"
+
+marathon_url: "http://downloads.mesosphere.io/marathon/v{{ marathon_major_version }}/marathon-{{ marathon_major_version }}.tgz"
+marathon_dest_file: "/tmp/marathon-{{ marathon_major_version }}.tgz"
+marathon_install_location: "/opt/marathon"

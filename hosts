@@ -1,0 +1,11 @@
+[mesos_master]
+mesos-master
+
+[zookeeper_nodes]
+zk-1 zoo_id=1
+zk-2 zoo_id=2
+zk-3 zoo_id=3
+
+[mesos_slaves]
+mesos-slave-1
+mesos-slave-2

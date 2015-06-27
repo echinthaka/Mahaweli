@@ -1,0 +1,6 @@
+---
+# Here we are using the debian package if debian
+- include: debian.yml
+  when: ansible_os_family == "Debian"
+
+- include: zookeeper.yml

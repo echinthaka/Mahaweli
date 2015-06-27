@@ -1,0 +1,15 @@
+---
+- name: Delete zookeeper configuration
+  file: path=/etc/zookeeper/conf/zoo.cfg state=absent
+
+- name: Delete zookeeper myid file
+  file: path=/etc/zookeeper/conf/myid state=absent
+
+- name: Create zookeeper config file
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+
+- name: Create zookeeper myid file
+  template: src=zoo_id.j2 dest=/etc/zookeeper/conf/myid
+  notify:
+    - Restart zookeeper
+

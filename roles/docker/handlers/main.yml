@@ -1,0 +1,4 @@
+---
+- name: Restarting docker
+  sudo: yes
+  service: name=docker state=restarted

@@ -1,0 +1,25 @@
+- hosts: [zookeeper_nodes]
+  sudo: True
+  roles:
+    - java
+    - zookeeper
+
+- hosts: [mesos_master]
+  sudo: True
+  roles:
+    - java
+    - { role: ansible-mesos,
+        zookeeper_hostnames: "{{ groups.zookeeper_nodes | join(':' + zookeeper_client_port + ',')  }}:{{ zookeeper_client_port  }}"
+      }
+    - ansible-marathon
+    - marathon-haproxy
+
+- hosts: [mesos_slaves]
+  sudo: True
+  roles:
+    - docker
+    - scala
+    - { role: ansible-mesos,
+        mesos_install_mode: "slave",
+        zookeeper_hostnames: "{{ groups.zookeeper_nodes | join(':' + zookeeper_client_port + ',')  }}:{{ zookeeper_client_port  }}"
+      }
